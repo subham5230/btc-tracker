@@ -56,21 +56,21 @@ function CSVExportData() {
     return (
         <>
         <div className='p-3'>
-            <h3 className='text-light'>Historical Data</h3>
+            <span className='text-light' style={{fontSize: '1.4vw'}}>Historical Data</span>
         </div>
 
 
         <div>
             <div className='d-flex py-2 justify-content-between' style={{padding: '0 20%'}}>
-                <span className='text-light' style={{fontSize: '1.3rem'}}>From Date :</span>
-                <input className='px-2' type='date' ref={fromDate} style={{background: 'rgba(255, 255, 255, 0.9)', border: '1px solid rgb(151, 103, 187)', borderRadius: '8px'}}/>
+                <span className='text-light' style={{fontSize: '1.2vw'}}>From Date :</span>
+                <input className='px-2' type='date' ref={fromDate} style={{background: 'rgba(255, 255, 255, 0.9)', border: '1px solid rgb(151, 103, 187)', borderRadius: '8px', width: '60%'}}/>
             </div>
             <div className='d-flex py-2 justify-content-between' style={{padding: '0 20%'}}>
-                <span className='text-light' style={{fontSize: '1.3rem'}}>To Date:</span>
-                <input className='px-2' type='date' ref={toDate} style={{background: 'rgba(255, 255, 255, 0.9)', border: '1px solid rgb(151, 103, 187)', borderRadius: '8px'}}/>
+                <span className='text-light' style={{fontSize: '1.2vw'}}>To Date:</span>
+                <input className='px-2' type='date' ref={toDate} style={{background: 'rgba(255, 255, 255, 0.9)', border: '1px solid rgb(151, 103, 187)', borderRadius: '8px', width: '60%'}}/>
             </div>
             <div className='d-flex py-2 pt-5 justify-content-center' style={{padding: '0 20%'}}>
-                <button className='csv-btn p-2' onClick={handleCSVSubmit} style={{background: 'rgba(124, 86, 153, 0.4)', color: 'white', borderRadius: '8px', border:'1px solid rgb(151, 103, 187)'}}>Download CSV</button>
+                <button className='csv-btn p-2' onClick={handleCSVSubmit} style={{background: 'rgba(124, 86, 153, 0.4)', color: 'white', borderRadius: '8px', border:'1px solid rgb(151, 103, 187)', fontSize: '0.8vw'}}>Download CSV</button>
             </div>
         </div>
         </>

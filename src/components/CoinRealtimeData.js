@@ -32,27 +32,27 @@ function CoinRealtimeData() {
     }, [timer])
 
     return (
-        <>
+        <div>
         <div className=''>
-            <h2 className='text-light'>Bitcoin</h2>
+            <span className='text-light' style={{fontSize: '1.7vw'}}>Bitcoin</span>
         </div>
 
 
         <div>
             <div className='d-flex py-2 justify-content-between' style={{padding: '0 20%'}}>
-                <span className='text-light' style={{fontSize: '1.3rem'}}>Price :</span>
-                <span className='text-light' style={{fontSize: '1.3rem'}}>$ {data.price}</span>
+                <span className='text-light' style={{fontSize: '1.2vw'}}>Price :</span>
+                <span className='text-light' style={{fontSize: '1.2vw'}}>$ {data.price}</span>
             </div>
             <div className='d-flex py-2 justify-content-between' style={{padding: '0 20%'}}>
-                <span className='text-light' style={{fontSize: '1.3rem'}}>Market cap :</span>
-                <span className='text-light' style={{fontSize: '1.3rem'}}>$ {data.market_cap.toLocaleString()}</span>
+                <span className='text-light' style={{fontSize: '1.2vw'}}>Market cap :</span>
+                <span className='text-light' style={{fontSize: '1.2vw'}}>$ {data.market_cap.toLocaleString()}</span>
             </div>
             <div className='d-flex py-2 justify-content-between' style={{padding: '0 20%'}}>
-                <span className='text-light' style={{fontSize: '1.3rem'}}>Price Change (24h) :</span>
-                <span className='' style={data.change_percent>=0 ? {fontSize: '1.3rem', color: 'green'} : {fontSize: '1.3rem', color: 'red'}}>{data.change_percent}%</span>
+                <span className='text-light' style={{fontSize: '1.2vw'}}>Price Change (24h) :</span>
+                <span className='' style={data.change_percent>=0 ? {fontSize: '1.2vw', color: 'green'} : {fontSize: '1.2vw', color: 'red'}}>{data.change_percent}%</span>
             </div>
         </div>
-        </>
+        </div>
     )
 }
 
