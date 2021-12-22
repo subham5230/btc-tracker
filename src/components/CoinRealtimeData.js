@@ -19,14 +19,16 @@ function CoinRealtimeData() {
       }, []);
 
     React.useEffect(()=>{
-        coinGecko.get(`/coins/bitcoin?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`)
+        coinGecko.get("/coins/markets/", {
+            params: {
+                vs_currency: "usd",
+                ids: 'bitcoin',
+            }})
             .then((res)=>{
-
-                console.log(res.data.market_data.market_cap.usd)
                 setData({
-                    'price': res.data.market_data.current_price.usd,
-                    'market_cap': res.data.market_data.market_cap.usd,
-                    'change_percent': res.data.market_data.price_change_percentage_24h
+                    'price': res.data[0].current_price,
+                    'market_cap': res.data[0].market_cap,
+                    'change_percent': res.data[0].price_change_percentage_24h
                 });
             })
     }, [timer])
