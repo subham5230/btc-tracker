@@ -8,6 +8,7 @@ function Chart() {
     const [coinData, setCoinData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
+  
     const formatData = (data) => {
         return data.map((el) => {
         return {
@@ -20,7 +21,7 @@ function Chart() {
     useEffect(() => {
         const fetchData = async () => {
         setIsLoading(true);
-        const [day, week, year, detail] = await Promise.all([
+        const [day, week, year, detail, dateRange] = await Promise.all([
             coinGecko.get(`/coins/${id}/market_chart/`, {
             params: {
                 vs_currency: "usd",
@@ -46,7 +47,6 @@ function Chart() {
             },
             }),
         ]);
-        console.log(day);
 
         setCoinData({
             day: formatData(day.data.prices),
@@ -60,14 +60,21 @@ function Chart() {
         fetchData();
     }, []);
 
+    
+
+    
+
     const renderData = () => {
         if (isLoading) {
           return <div>Loading....</div>;
         }
         return (
-          <div className='d-flex justify-content-center' style={{position: 'relative', height: '100%', alignItems: 'center'}}>
-            <HistoryChart data={coinData} style={{height: '100%'}}/>
-          </div>
+            <div className='' style={{position: 'relative', height: '100%'}}>
+                <div className='d-flex justify-content-center' style={{position: 'relative', height: '100%', alignItems: 'center'}}>
+                    <HistoryChart data={coinData} style={{height: '100%'}}/>
+                </div>
+
+        </div>
         );
       };
     

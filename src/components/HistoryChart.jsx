@@ -1,11 +1,27 @@
 import React, { useRef, useEffect, useState } from "react";
 import Chartjs from "chart.js";
 import { historyOptions } from "../chartConfigs/chartConfigs";
+import coinGecko from "../apis/coinGecko";
 
 const HistoryChart = ({ data }) => {
   const chartRef = useRef();
   const { day, week, year, detail } = data;
+  const [range, setRange] = useState({});
+  const [rangeData, setRangeData] = useState({});
   const [timeFormat, setTimeFormat] = useState("24h");
+
+  let fromRangeDate = React.createRef();
+  let toRangeDate = React.createRef();
+
+  const formatData = (data) => {
+    return data.map((el) => {
+    return {
+        t: el[0],
+        y: el[1].toFixed(2),
+    };
+    });
+  };
+
 
   const determineTimeFormat = () => {
     switch (timeFormat) {
@@ -15,10 +31,39 @@ const HistoryChart = ({ data }) => {
         return week;
       case "1y":
         return year;
+      case 'date': 
+        return rangeData;
       default:
         return day;
     }
   };
+
+  useEffect(() => {
+
+    
+    const fetchRangedData = async () => {
+
+    if(Object.keys(range).length > 0){
+        
+        const dateRange = await
+            coinGecko.get(`/coins/bitcoin/market_chart/range`, {
+            params: {
+                vs_currency: "usd",
+                from: range.fromDate,
+                to: range.toDate,
+            },
+            });
+
+        console.log(formatData(dateRange.data.prices))
+
+        setRangeData(formatData(dateRange.data.prices));
+        setTimeFormat('date');
+        
+    }
+    };
+
+    fetchRangedData();
+  }, [range]);
 
   useEffect(() => {
 
@@ -55,6 +100,20 @@ const HistoryChart = ({ data }) => {
     }
   });
 
+  function handleRangeData(){
+    let from = Number(Date.parse(fromRangeDate.current.value));
+    from = String((from / 1000).toFixed(0));
+
+    let to = Number(Date.parse(toRangeDate.current.value));
+    to = String((to / 1000).toFixed(0));
+
+    setRange({
+        fromDate: from,
+        toDate: to
+    });
+
+  }
+
   const renderPrice = () => {
     if (detail) {
       return (
@@ -74,10 +133,10 @@ const HistoryChart = ({ data }) => {
     }
   };
   return (
-    <div className="my-auto rounded p-3 d-flex flex-column" style={{position: "relative", height: '90%', width: '100%', alignItems: 'center'}}>
+    <div className="my-auto rounded p-3 d-flex flex-column" style={{position: "relative", height: '100%', width: '100%', alignItems: 'center'}}>
       <div>{renderPrice()}</div>
-      <div style={{position: 'relative', height: '70%', width: '100%'}}>
-        <canvas ref={chartRef} id="myChart" style={{width: '80%', height: '80%'}}></canvas>
+      <div style={{position: 'relative', height: '60%', width: '100%'}}>
+        <canvas ref={chartRef} id="myChart"></canvas>
       </div>
 
       <div className="chart-button mt-3">
@@ -103,6 +162,23 @@ const HistoryChart = ({ data }) => {
           1y
         </button>
       </div>
+
+      <div className='row d-flex justify-content-center' style={{position: 'relative', height: '20%', alignItems: 'center'}}>
+              <div className='col-lg-6'>
+                  <span className='text-light' style={{fontSize: '1.3rem'}}>From:&nbsp;</span>
+                  <input className='px-2' type='date' ref={fromRangeDate} style={{background: 'rgba(255, 255, 255, 0.9)', border: '1px solid rgb(151, 103, 187)', borderRadius: '8px'}}/>
+              </div>
+              <div className='col-lg-6'>
+                  <span className='text-light' style={{fontSize: '1.3rem'}}>To:&nbsp;</span>
+                  <input className='px-2' type='date' ref={toRangeDate} style={{background: 'rgba(255, 255, 255, 0.9)', border: '1px solid rgb(151, 103, 187)', borderRadius: '8px'}}/>
+              </div>
+
+              <div className="row d-flex justify-content-center">
+                  <button className='csv-btn p-2 px-4' onClick={handleRangeData} style={{background: 'rgba(124, 86, 153, 0.4)', color: 'white', borderRadius: '8px', border:'1px solid rgb(151, 103, 187)', maxWidth: '30%'}}>Filter</button>
+              </div>
+          
+      </div>
+      
     </div>
   );
 };
